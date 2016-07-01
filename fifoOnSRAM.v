@@ -244,8 +244,4 @@ module fifoOnSRAM(
 		  end
 	 
 	 end
-	 
-	 
-
-
 endmodule
