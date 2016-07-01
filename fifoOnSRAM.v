@@ -49,35 +49,34 @@ module fifoOnSRAM(
     parameter sizeOfFIFO = 10;
 	 
 
-	reg [17:0] readAddr;
+    reg [17:0] readAddr;
     reg [17:0] writeAddr;
     reg [15:0] LastReadData;
 	 
-	reg DAT_MUX;
+    reg DAT_MUX;
 	 
-	parameter MUX_FPGA_TO_SRAM =1; //
-	parameter MUX_SRAM_TO_FPGA =0; //
+    parameter MUX_FPGA_TO_SRAM =1; //
+    parameter MUX_SRAM_TO_FPGA =0; //
 
-	assign IO = (DAT_MUX==1)?(dataIn) :(16'bzzzzzzzzzzzzzzzz) ;
+    assign IO = (DAT_MUX==1)?(dataIn) :(16'bzzzzzzzzzzzzzzzz) ;
 	 
-	always @(posedge fifoClk)
-	 begin
-	   if(fifoRst==0) 
-		  begin
-		  // next state
-          state   <= ST_IDLE;
-		  // Action
-          CE<=0;
-          OE<=1;
-          WE<=1;
-          LB<=0;
-          UB<=0;
-		  readAddr<=1;
-		  writeAddr<=0;
-		  LastReadData<=0;
-        		  
-		  end 
-	   else 
+    always @(posedge fifoClk)
+      begin
+        if(fifoRst==0) 
+	  begin
+	    // next state
+            state   <= ST_IDLE;
+	    // Action
+            CE<=0;
+            OE<=1;
+            WE<=1;
+            LB<=0;
+            UB<=0;
+	    readAddr<=1;
+	    writeAddr<=0;
+	    LastReadData<=0;
+	 end 
+       else 
 		  begin 
 	     case(state)
 	     ST_IDLE: 
@@ -235,10 +234,10 @@ module fifoOnSRAM(
 				
 			   end		  
 		  end 
-		  default :
-		    begin 
-			end 
-	     endcase
-		 end
-	 end
+	default :
+	  begin 
+	  end 
+        endcase
+      end
+    end
 endmodule
