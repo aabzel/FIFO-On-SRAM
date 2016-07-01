@@ -77,35 +77,35 @@ module fifoOnSRAM(
 	    LastReadData<=0;
 	 end 
        else 
-		  begin 
-	     case(state)
-	     ST_IDLE: 
-		  begin
-         if(start==0) 
-			  begin 
-			  // next state
-			  state   <= ST_GET_READY_READ;
-			  // Action
-			  DataOut <= LastReadData;
-			  Addr    <= readAddr;
+	 begin 
+	   case(state)
+	   ST_IDLE: 
+	     begin
+               if(start==0) 
+	         begin 
+	       	   // next state
+		   state   <= ST_GET_READY_READ;
+		   // Action
+		   DataOut <= LastReadData;
+		   Addr    <= readAddr;
 
-	          DAT_MUX <=MUX_SRAM_TO_FPGA;
+	           DAT_MUX <=MUX_SRAM_TO_FPGA;
 			  
-			  WE<=1;
-			  OE<=1;
-			  CE<=0;
-			  UB<=0;
-			  LB<=0;		  
-			  end 
-			else 
-			  begin 
-			  state   <= ST_IDLE;
-			  DataOut <= 16'b1111_1111_1111_1111;
-			  end		  
-		  end
-	     ST_GET_READY_READ: 
-		  begin
-		     // next state
+		   WE<=1;
+		   OE<=1;
+		   CE<=0;
+		   UB<=0;
+		   LB<=0;		  
+		end 
+		  else 
+		    begin 
+		      state   <= ST_IDLE;
+		      DataOut <= 16'b1111_1111_1111_1111;
+		    end		  
+	     end
+	   ST_GET_READY_READ: 
+	     begin
+	       // next state
 			 state   <= ST_READ;
 		     // Action
 			 DAT_MUX <= MUX_SRAM_TO_FPGA;
@@ -116,34 +116,34 @@ module fifoOnSRAM(
 			 UB<=0;
 			 LB<=0;	
 
-		  end
-	     ST_READ: 
-		  begin
-		     // next state
-			 state   <= ST_READ_DONE;
-		     // Action
-			 LastReadData<=IO;     
-		     WE<=1;
-			 OE<=0;
-			 CE<=0;
-			 UB<=0;
-			 LB<=0;
-		  end
-	     ST_READ_DONE: 
-		  begin
-		     // next state
-             state   <= ST_GET_READY_WRITE;
-		     // Action  
-		     WE<=1;
-			 OE<=1;
-			 CE<=0;
-			 UB<=0;
-			 LB<=0;	  
-		  end
+	     end
+	   ST_READ: 
+	     begin
+	       // next state
+	       state   <= ST_READ_DONE;
+	       // Action
+	       LastReadData<=IO;     
+	       WE<=1;
+	       OE<=0;
+	       CE<=0;
+	       UB<=0;
+	       LB<=0;
+	     end
+	   ST_READ_DONE: 
+	     begin
+	       // next state
+               state   <= ST_GET_READY_WRITE;
+	       // Action  
+	       WE<=1;
+	       OE<=1;
+	       CE<=0;
+	       UB<=0;
+	       LB<=0;	  
+	     end
 		  
-	     ST_GET_READY_WRITE: 
-		  begin
-		     // next state
+	   ST_GET_READY_WRITE: 
+	     begin
+	       // next state
 		     state   <= ST_WRITE;
 			 // Action
 			 Addr    <= writeAddr;
@@ -155,23 +155,22 @@ module fifoOnSRAM(
 			 UB<=0;
 			 LB<=0;
 		  
-		  end
-	     ST_WRITE: 
-		  begin
-		     // next state
-		     state   <= ST_INCR_ADDR;
-		     // Action
-		     WE<=0;
-			 OE<=1;
+	     end
+	   ST_WRITE: 
+	     begin
+	       // next state
+		 state   <= ST_INCR_ADDR;
+		 // Action
+		 WE<=0;
+		 OE<=1;
 			 
-			 CE<=0;
-			 UB<=0;
-			 LB<=0;
-		  
-		  end
-	     ST_INCR_ADDR: 
-		  begin 
-		     // next state
+		 CE<=0;
+		 UB<=0;
+		 LB<=0;
+	     end
+	   ST_INCR_ADDR: 
+	     begin 
+	       // next state
 		     state   <= ST_DONE;
 		     // Action
 			 if(writeAddr==sizeOfFIFO)
@@ -199,11 +198,10 @@ module fifoOnSRAM(
 			 CE<=0;
 			 UB<=0;
 			 LB<=0;
-		  end
-		  
-	     ST_DONE: 
-		  begin
-          if(start==0) 
+	     end
+	   ST_DONE: 
+	     begin
+               if(start==0) 
 			   begin 
 				// next state
 				state   <= ST_DONE;
@@ -232,8 +230,8 @@ module fifoOnSRAM(
 			    UB<=0;
 			    LB<=0;
 				
-			   end		  
-		  end 
+	       end		  
+	     end 
 	default :
 	  begin 
 	  end 
